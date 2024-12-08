@@ -34,13 +34,26 @@ if not AIPROXY_TOKEN:
     print("Error: AIPROXY_TOKEN environment variable is not set.")
     sys.exit(1)
 
-# Load the dataset
+# Load the dataset with encoding handling
 try:
-    df = pd.read_csv(csv_file)
-    print(f"Loaded dataset '{csv_file}' with shape {df.shape}")
-except Exception as e:
-    print(f"Error loading CSV file: {e}")
-    sys.exit(1)
+    # Try loading with UTF-8 first
+    df = pd.read_csv(csv_file, encoding="utf-8")
+except UnicodeDecodeError:
+    print("UTF-8 decoding failed. Attempting with 'latin-1' encoding.")
+    try:
+        df = pd.read_csv(csv_file, encoding="latin-1")
+    except Exception as e:
+        print(f"Error loading CSV file: {e}")
+        sys.exit(1)
+
+print(f"Loaded dataset '{csv_file}' with shape {df.shape}")
+
+# Get dataset name without extension
+dataset_name = os.path.splitext(os.path.basename(csv_file))[0]
+
+# Create output directory for the dataset
+output_dir = os.path.join(os.getcwd(), dataset_name)
+os.makedirs(output_dir, exist_ok=True)
 
 def basic_analysis(data):
     """Perform basic analysis on the dataset."""
@@ -61,7 +74,7 @@ def generate_visualizations(data, output_prefix):
         corr = data.corr(numeric_only=True)
         plt.figure(figsize=(10, 8))
         sns.heatmap(corr, annot=True, cmap="coolwarm", fmt=".2f")
-        heatmap_path = f"{output_prefix}_correlation_heatmap.png"
+        heatmap_path = f"{output_prefix}/correlation_heatmap.png"
         plt.title("Correlation Heatmap")
         plt.savefig(heatmap_path)
         plt.close()
@@ -74,7 +87,7 @@ def generate_visualizations(data, output_prefix):
         plt.figure(figsize=(8, 6))
         sns.histplot(data[column], kde=True, color="blue")
         plt.title(f"Histogram of {column}")
-        hist_path = f"{output_prefix}_{column}_histogram.png"
+        hist_path = f"{output_prefix}/{column}_histogram.png"
         plt.savefig(hist_path)
         plt.close()
         paths["histograms"].append(hist_path)
@@ -119,23 +132,32 @@ def narrate_analysis(data_summary, visualizations):
     """
     return ask_llm(prompt)
 
+# Function to add the license text to the README
+def add_license_section():
+    """Generate the license section for the README."""
+    return """
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+"""
+
 # Main script logic
 if __name__ == "__main__":
-    print("Performing analysis...")
+    print(f"Performing analysis for dataset '{dataset_name}'...")
 
     # Perform basic analysis
     data_summary = basic_analysis(df)
 
     # Generate visualizations
-    output_prefix = os.path.splitext(os.path.basename(csv_file))[0]
-    visualizations = generate_visualizations(df, output_prefix)
+    visualizations = generate_visualizations(df, output_dir)
 
     # Generate narrative using LLM
     story = narrate_analysis(data_summary, visualizations)
 
-    # Create README.md with results
-    with open("README.md", "w") as f:
-        f.write("# Automated Data Analysis Report\n\n")
+    # Create README.md with results in the dataset-specific folder
+    readme_path = os.path.join(output_dir, "README.md")
+    with open(readme_path, "w") as f:
+        f.write(f"# Automated Data Analysis Report for {dataset_name.capitalize()}\n\n")
         f.write(f"## Dataset: {csv_file}\n\n")
         f.write("### Basic Analysis\n")
         f.write(f"- Columns: {data_summary['columns']}\n")
@@ -144,8 +166,11 @@ if __name__ == "__main__":
         f.write(story + "\n\n")
         f.write("### Visualizations\n")
         if "heatmap" in visualizations:
-            f.write(f"![Correlation Heatmap]({visualizations['heatmap']})\n")
+            f.write(f"![Correlation Heatmap](correlation_heatmap.png)\n")
         for hist in visualizations["histograms"]:
-            f.write(f"![Histogram: {hist}]({hist})\n")
+            f.write(f"![Histogram: {hist}]({os.path.basename(hist)})\n")
+        
+        # Add the license section
+        f.write(add_license_section())
 
-    print("Analysis completed. Results saved to 'README.md'.")
+    print(f"Analysis completed. Results saved in '{output_dir}'.")
