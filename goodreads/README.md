@@ -7,35 +7,52 @@
 - **Missing Values**: {'book_id': 0, 'goodreads_book_id': 0, 'best_book_id': 0, 'work_id': 0, 'books_count': 0, 'isbn': 700, 'isbn13': 585, 'authors': 0, 'original_publication_year': 21, 'original_title': 585, 'title': 0, 'language_code': 1084, 'average_rating': 0, 'ratings_count': 0, 'work_ratings_count': 0, 'work_text_reviews_count': 0, 'ratings_1': 0, 'ratings_2': 0, 'ratings_3': 0, 'ratings_4': 0, 'ratings_5': 0, 'image_url': 0, 'small_image_url': 0}
 
 ### Key Insights
-### Key Insights
-1. **Large Dataset**: The dataset contains 10,000 entries, providing a robust base for analysis and insights into book characteristics and their reception.
-2. **Missing Values**: Significant missing values exist in several key columns, particularly for `isbn`, `isbn13`, `original_publication_year`, `original_title`, and `language_code`. These gaps may impact certain analyses.
-3. **Author Popularity**: Stephen King is the most frequently listed author, indicating that popular authors may dominate the dataset.
-4. **Average Ratings**: The average rating across the dataset stands at approximately 4.00, suggesting a generally positive reception of the books.
-5. **Genre and Language Distribution**: The dataset could be better understood with insights into the distribution of `language_code` and genres of the books, but it currently holds a notable proportion of books written in English.
-6. **Publication Year Range**: The original publication year ranges from as far back as -1750 to 2017, showing a diverse historical presence of literature, though the majority appears to center around modern works (average around 1981).
+
+1. **Data Completeness**: The dataset has various missing values, especially in the `isbn`, `isbn13`, `original_publication_year`, `original_title`, and `language_code` columns, indicating incomplete data for several books.
+  
+2. **Average Ratings**: The average rating for the books is approximately 4.00, which reflects a generally positive reception among readers.
+
+3. **Authors**: The dataset includes 4664 unique authors, with Stephen King being the most frequently mentioned author, appearing 60 times.
+
+4. **Language Diversity**: The dataset has entries in 25 unique languages, with English (identified by code 'eng') being the most prevalent.
+
+5. **Outliers**: Multiple numeric columns show the presence of outliers. This could affect analyses such as average ratings and ratings counts, skewing perceived trends.
+
+6. **Clustering**: The successful application of K-Means clustering on the dataset revealed three distinct clusters, which can help in segmenting the books for targeted analyses and recommendations.
 
 ### Dataset Overview
-- **Columns**: The dataset includes 22 columns related to various book attributes, such as IDs, publication details, authors, ratings, and language codes.
-- **Missing Data**: Certain columns have a considerable amount of missing data, notably `isbn` (700 missing), `isbn13` (585 missing), `original_publication_year` (21 missing), and `language_code` (1084 missing).
-- **Quality of Ratings**: The dataset includes detailed ratings breakdown (1 to 5 stars), and there is a notable positive skew toward higher ratings.
+
+- **Size**: The dataset contains a total of 10,000 entries with 21 feature columns.
+- **Missing Values**: Several columns such as `isbn`, `original_publication_year`, and `language_code` exhibit substantial missing data.
+- **Data Types**: The dataset includes categorical features (e.g., `authors`, `language_code`, etc.) as well as numeric features (e.g., `average_rating`, `ratings_count`, etc.).
 
 ### Key Findings
-1. **ISBN Issues**: Almost 7% of records lack an ISBN, which could complicate efforts to track data across systems and databases.
-2. **Publication Trends**: The original publication year averages around 1982, indicating a potential concentration of modern literature.
-3. **Language Diversity**: Over 10% of rows have missing `language_code`, impacting the ability for multifaceted analysis by language.
-4. **Ratings Insights**: High ratings are prevalent, with an average around 4.00 and a maximum of 4.82, suggesting books in this dataset are generally well-received.
-5. **Review Activity**: The count of textual reviews is low compared to the ratings count, indicating possible underutilization of review features or a preference for numeric ratings among users.
+
+1. **Distribution of Ratings**: 
+   - The ratings distribution shows high counts for higher ratings (ratings 4 and 5) compared to lower ratings (ratings 1, 2, and 3).
+   - There are significant numbers of books receiving a very high number of ratings, indicating popularity among certain titles.
+
+2. **Trends in Publication Years**: 
+   - The `original_publication_year` variable has outliers, including very old publication years, which implies historical text inclusion.
+
+3. **Feature Importance**:
+   - The most influential features for determining ratings and book popularity include `work_ratings_count`, `ratings_count`, and `average_rating`.
 
 ### Recommendations
-1. **Data Cleaning**: Cleaning the dataset to handle missing values should be prioritized, especially for critical columns like `isbn`, `original_title`, and `language_code`.
-2. **Enhanced Data Capture**: Future dataset captures should aim to ensure key identifiers like ISBN are fully populated to facilitate data integrity.
-3. **Detailed Genre Categorization**: Implement detailed categorization of genres, as this would aid further analysis on trends across different new and popular genres.
-4. **Targeted Marketing for Authors**: Leverage insights about popular authors (e.g., Stephen King) for targeted marketing strategies or author-focused analyses.
-5. **User Engagement Analysis**: Investigate user engagement with the review system to potentially enhance interaction with readers and increase textual review submissions.
 
-### Conclusion
-The dataset provides a wealth of information concerning books, ratings, and authors. While it shows generally positive reception trends and the prominence of certain authors like Stephen King, significant gaps in data require attention for more effective analysis. By cleaning the dataset, enhancing data capturing methods, and focusing on key areas such as genre categorization and user engagement, this dataset could yield even richer insights about literary preferences and market dynamics. Further analysis should prioritize understanding the missing data and how it may affect conclusions drawn from this dataset.
+1. **Data Cleaning**: Address the missing values, particularly in the `isbn`, `original_publication_year`, and `original_title` columns. Consider imputation strategies or removal of these entries as appropriate.
+
+2. **Outlier Analysis**: Investigate outliers further to determine if they represent valid exceptional cases or errors that should be cleaned from the dataset.
+
+3. **Expand Language Data**: Enhance the language diversity by sourcing more entries in underrepresented languages to increase the usability of the dataset.
+
+4. **Use Clustering for Marketing**: Employ the clustering results for more targeted marketing strategies, focusing on the unique traits of each cluster in book recommendations.
+
+5. **Periodic Updates**: Regularly refresh the dataset with new book entries and reviews to maintain relevance and accuracy in trends.
+
+### Conclusions
+
+The dataset provides a wealth of information regarding books, authors, and reader preferences, though it requires some cleanup and enrichment. The positive average ratings reflect well on the dataset's overall quality, suggesting a collection of beloved titles. Further explorations, particularly concerning outliers and missing values, alongside the outlined recommendations, can significantly enhance both the quality of the dataset and its applications. By leveraging the insights garnered through analyses such as clustering and feature importance, stakeholders can refine their approaches towards book selection, marketing, and reader engagement strategies.
 
 ### Outlier Detection Results
 Detected outliers in 'book_id': 0 rows
@@ -73,6 +90,30 @@ Detected outliers in 'ratings_5': 1158 rows
 |  5 | isbn13                    |  0.0012705   |
 |  3 | work_id                   |  0.00126954  |
 |  2 | best_book_id              |  0.000606341 |
+
+### Correlation Analysis
+Correlation Matrix saved as C:\Users\Abdul Hadi\Desktop\TdsProject2\goodreads\correlation_matrix.png
+
+### Clustering Analysis
+K-Means clustering successfully performed with 3 clusters on numeric columns: ['book_id', 'goodreads_book_id', 'best_book_id', 'work_id', 'books_count', 'isbn13', 'original_publication_year', 'average_rating', 'ratings_count', 'work_ratings_count', 'work_text_reviews_count', 'ratings_1', 'ratings_2', 'ratings_3', 'ratings_4', 'ratings_5']. Results plotted in two dimensions.
+
+### Distribution Analysis
+Boxplot created for book_id.
+Boxplot created for goodreads_book_id.
+Boxplot created for best_book_id.
+Boxplot created for work_id.
+Boxplot created for books_count.
+Boxplot created for isbn13.
+Boxplot created for original_publication_year.
+Boxplot created for average_rating.
+Boxplot created for ratings_count.
+Boxplot created for work_ratings_count.
+Boxplot created for work_text_reviews_count.
+Boxplot created for ratings_1.
+Boxplot created for ratings_2.
+Boxplot created for ratings_3.
+Boxplot created for ratings_4.
+Boxplot created for ratings_5.
 
 ### Visualizations
 ![Correlation Heatmap](C:\Users\Abdul Hadi\Desktop\TdsProject2\goodreads/correlation_heatmap.png)

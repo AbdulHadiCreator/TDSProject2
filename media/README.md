@@ -7,30 +7,44 @@
 - **Missing Values**: {'date': 99, 'language': 0, 'type': 0, 'title': 0, 'by': 262, 'overall': 0, 'quality': 0, 'repeatability': 0}
 
 ### Key Insights
-### Key Insights
-1. **Missing Values:** The dataset has 99 missing values in the 'date' column and 262 missing values in the 'by' column. This could potentially impact the analysis if these fields hold significant importance.
-2. **Dominant Entries:** The majority of entries are in English (1306 instances) and pertain to the "movie" type (2211 instances).
-3. **Rating Averages:** The overall ratings have a mean of approximately 3.05, while the quality ratings average at around 3.21. The repeatability rating, however, is significantly lower with a mean of about 1.49, suggesting it might need further investigation.
-4. **Variety of Titles and Contributors:** There are 2312 unique titles and 1528 unique contributors, indicating a rich dataset of films and reviewers.
+
+1. **Missing Values**: The dataset contains a significant number of missing values, particularly in the 'date' (99 missing) and 'by' (262 missing) columns. Addressing these is crucial for further analysis.
+
+2. **Language and Type Distribution**: The dataset predominantly focuses on English language entries (1306 out of 2652) and movies (2211 out of 2652), indicating a potential bias towards popular media.
+
+3. **Overall Ratings**: The average overall rating is approximately 3.05, indicating a generally satisfactory reception among the entries. However, it has a standard deviation of 0.76, which suggests variability in how different entries are rated.
+
+4. **Quality Ratings**: The average quality rating is slightly higher at about 3.21, indicating that movies may often be perceived as more qualitative than their overall rating.
+
+5. **Repeatability**: The mean repeatability scoring is lower (1.49), suggesting that many entries lack consistency or may not be easily re-watched or appreciated multiple times.
 
 ### Dataset Overview
-- The dataset comprises 2652 entries with 8 relevant columns including 'date', 'language', 'type', 'title', 'by', 'overall', 'quality', and 'repeatability'.
-- Columns like 'language' and 'type' serve categorical roles with a limited range of unique values.
-- The numerical columns 'overall', 'quality', and 'repeatability' provide insights into the evaluation of films.
+
+- **Columns**: The dataset consists of 8 columns focused on media attributes like 'date', 'language', 'type', and various ratings (overall, quality, repeatability).
+- **Size**: It contains 2652 total records, highlighting a robust dataset, but attention is needed on the missing values.
+- **Unique Values**: The titles, contributors, and entry dates are diverse, with 2312 unique titles and 1528 unique contributors.
 
 ### Key Findings
-- **Temporal Distribution:** The presence of 99 missing entries in the 'date' column indicates a gap in temporal analysis, which may limit understanding of trends over time.
-- **Reviewer Identity and Contribution Gaps:** The substantial number of missing values in the 'by' column could affect the ability to analyze the reputation or influence of specific reviewers on overall ratings.
-- **Quality vs. Repeatability:** The discrepancy between the mean ratings of quality and repeatability suggests that while films are rated fairly favorably, repetition or consistency in ratings is not as strong, potentially signaling issues in reliability.
+
+1. **Outlier Analysis**: Significant outliers were detected in the 'overall' ratings (1216 rows) and fewer in 'quality' (24 rows). This indicates that while most entries are rated around the average score, many have extremely high or low ratings that could skew the interpretation of the data.
+
+2. **Feature Importance**: The analysis indicates that 'overall' is the most significant predictor of satisfaction/ratings, with a very high importance score (82.17%) compared to 'quality' (17.83%).
+
+3. **Cluster Analysis**: K-Means clustering successfully identified 3 distinct clusters in terms of overall, quality, and repeatability scores. Patterns in these clusters can inform audience targeting and content strategy.
 
 ### Recommendations
-1. **Data Cleaning:** Address the missing values in both 'date' and 'by' columns through imputation or other methods. Analyze the impact of these missing entries on overall conclusions.
-2. **Trend Analysis:** Once data cleaning is complete, perform a time-series analysis on ratings to observe trends and changes in viewer preferences over time.
-3. **Correlation Analysis:** Investigate the correlation between ‘overall’ and the other fields, especially 'quality' and 'repeatability', to uncover deeper insights into factors influencing ratings.
-4. **Focus on Repeatability:** Investigate the repeatability ratings further, as they have notable discrepancies compared to overall quality and ratings, which may reveal inconsistencies in user behavior or review standards.
 
-### Conclusion
-The dataset is rich in content with numerous unique titles and contributors, but the presence of missing values in key columns hinders comprehensive analysis. With proper data cleaning and further analysis focused on trends and consistency, valuable insights can be uncovered about film ratings and viewer preferences. Addressing the discrepancies in repeatability is particularly crucial for improving the reliability of the evaluations presented in the dataset.
+1. **Data Cleaning**: Missing data should be addressed through imputation or careful removal. Furthermore, further investigation of the outliers in the 'overall' scores is recommended to either understand the reasons behind extreme ratings or to consider removing them from aggregated analyses.
+
+2. **Focus on High-Quality Content**: Given the cluster analysis, accommodations should focus on high-quality titles (as indicated by high ratings) to retain audience engagement. Consider investing in similar genres or thematic content found within the clusters.
+
+3. **Explore Contributor Patterns**: Investigate commonalities related to high-rated titles by different contributors ('by'). It may be beneficial to create partnerships or highlight contributors that consistently deliver high ratings.
+
+4. **Enhance Repeatability**: Strategies should be employed to enhance repeatability aspects of the content, possibly by promoting fan-favorite titles more aggressively or through secondary content that enhances viewers' experiences.
+
+### Conclusions
+
+The dataset offers a solid foundation for understanding audience preferences in media ratings, especially regarding 'overall' satisfaction and 'quality.' Key outliers should be addressed to ensure data integrity, and focused strategies should target identified patterns through clustering to foster engagement and improve the quality of media entries. By acting on these insights, the dataset can provide more pronounced strategic advantages in content curation and audience engagement.
 
 ### Outlier Detection Results
 Detected outliers in 'overall': 1216 rows
@@ -45,6 +59,14 @@ Detected outliers in 'repeatability': 0 rows
 
 ### Correlation Analysis
 Correlation Matrix saved as C:\Users\Abdul Hadi\Desktop\TdsProject2\media\correlation_matrix.png
+
+### Clustering Analysis
+K-Means clustering successfully performed with 3 clusters on numeric columns: ['overall', 'quality', 'repeatability']. Results plotted in two dimensions.
+
+### Distribution Analysis
+Boxplot created for overall.
+Boxplot created for quality.
+Boxplot created for repeatability.
 
 ### Visualizations
 ![Correlation Heatmap](C:\Users\Abdul Hadi\Desktop\TdsProject2\media/correlation_heatmap.png)

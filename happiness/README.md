@@ -7,34 +7,50 @@
 - **Missing Values**: {'Country name': 0, 'year': 0, 'Life Ladder': 0, 'Log GDP per capita': 28, 'Social support': 13, 'Healthy life expectancy at birth': 63, 'Freedom to make life choices': 36, 'Generosity': 81, 'Perceptions of corruption': 125, 'Positive affect': 24, 'Negative affect': 16}
 
 ### Key Insights
-# Dataset Analysis Summary
 
-## Key Insights
-1. **Data Completeness**: Most columns contain missing values; the 'Generosity' and 'Perceptions of corruption' columns have the highest number of missing entries (81 and 125, respectively), indicating significant gaps that could impact analyses.
-2. **Country Distribution**: The dataset includes 165 unique countries, with Argentina being the most frequently represented, occurring 18 times. This may suggest a regional focus or completeness issues for certain countries.
-3. **Life Ladder Score**: The average “Life Ladder” score is approximately 5.48, with a range from 1.281 to 8.019, indicating varying levels of subjective well-being across different countries.
-4. **GDP Influence**: The average “Log GDP per capita” is around 9.40, reflecting differences in economic prosperity. This metric shows a potential correlation with the Life Ladder score given the economic dimensions of happiness.
-5. **Health Indicators**: The average healthy life expectancy at birth is 63.40 years, with significant deviations marked by standard deviation (6.84), suggesting disparities in health outcomes on a global scale.
-6. **Social Support**: Social support averages 0.809, indicating a generally high sense of community or support in many regions.
-7. **Freedom Index**: With an average score of 0.75 for “Freedom to make life choices,” it suggests that many individuals feel they have some level of autonomy in their lives, although there is still room for improvement.
+1. **Missing Values:** Several key columns in the dataset have missing values, particularly 'Generosity' (81 missing), 'Perceptions of corruption' (125 missing), and 'Healthy life expectancy at birth' (63 missing), indicating potential areas for data collection improvement.
+  
+2. **Life Ladder Trends:** The average 'Life Ladder' score is 5.48, suggesting moderate life satisfaction across the dataset. The distribution of values indicates variability, with a range from 1.281 to 8.019.
 
-## Dataset Overview
-The dataset contains 2,363 rows and 11 columns, representing various socio-economic indicators and subjective dimensions of well-being for different countries over several years. The columns help detail the connections between GDP, social support, health, individual freedoms, perceptions of corruption, and personal happiness.
+3. **Economic Indicators:** The mean 'Log GDP per capita' value is approximately 9.4, correlating with life satisfaction measures. This suggests a relationship between economic prosperity and perceived well-being.
 
-## Key Findings
-1. **Correlation Exploration**: Initial observations suggest that higher GDP per capita and social support are correlated with higher life ladder scores, indicative of greater satisfaction and happiness.
-2. **Impact of Missing Data**: The significant amount of missing data in key indicators, particularly 'Generosity' and 'Perceptions of corruption', limits the explorability of relationships in comprehensive analyses and might skew results if not handled properly.
-3. **Temporal Aspects**: The dataset spans from 2005 to 2023, showing progression of happiness and economic indicators over time, which can be vital for studying trends and changes in societal perspectives.
-4. **Mental Health Correlates**: The Positive and Negative Affects suggest that while the average Positive Affect score is above 0.65, Negative Affect hovers around 0.27, indicating a somewhat balanced psychological state, though more examination is needed in specific demographics or regions.
+4. **Social Support and Health:** 'Social support' and 'Healthy life expectancy at birth' are significant factors impacting life satisfaction, with importance scores suggesting that these features may significantly contribute to overall well-being measures.
 
-## Recommendations
-1. **Address Missing Data**: Use imputation techniques or consider different methods of analysis that can accommodate missing values to provide a more complete view of the data.
-2. **Deepen Analysis**: Conduct more detailed correlation analysis between Life Ladder and economic variables like Log GDP, healthcare access, and social support to better understand contributing factors to happiness.
-3. **Regional Focus Studies**: Given the concentration of countries like Argentina in the dataset, it may be beneficial to conduct regional studies to see how cultural differences affect perceptions of happiness and well-being.
-4. **Longitudinal Studies**: Implement longitudinal analysis to understand trends and changes in the indicators over time, which could provide insights on the effects of global events on well-being and economic conditions.
+5. **Clustering Results:** K-Means clustering revealed 3 distinct clusters, indicating that various groups of countries exhibit similar characteristics concerning life satisfaction and its correlates.
 
-## Conclusion
-The dataset presents a valuable resource for understanding the interplay between economic indicators, social support, healthcare, individual freedoms, and subjective well-being across nations. However, significant missing data must be addressed to ensure robust analyses and insights. Continuing this research will be crucial in addressing global disparities in happiness and well-being, ultimately aiding policymakers in nation-building and development strategies.
+### Dataset Overview
+
+- **Columns Included:**
+  - **Demographics:** 'Country name', 'year'
+  - **Life Satisfaction Metrics:** 'Life Ladder', 'Positive affect', 'Negative affect'
+  - **Economic Indicators:** 'Log GDP per capita', 'Generosity'
+  - **Social Metrics:** 'Social support', 'Healthy life expectancy at birth', 'Freedom to make life choices', 'Perceptions of corruption'
+  
+- **Sample Size:** The dataset consists of 2363 entries across 165 unique countries.
+
+- **Statistical Overview:** A variety of statistical measures are available, including means, standard deviations, and ranges for each quantitative feature.
+
+### Key Findings
+
+1. **Outlier Detection:** Outliers were identified in several features, notably in 'Perceptions of corruption' (194 rows), suggesting extreme values that may skew analyses and require careful consideration in interpretation.
+
+2. **Key Predictors of Life Satisfaction:** The analysis highlights 'Social support' and 'Healthy life expectancy at birth' as the top features impacting life satisfaction, which should be a focal point for policymakers.
+
+3. **Significant Missing Data:** Missing data is a significant concern, particularly in the 'Generosity' variable, influencing the robustness of predictive models and the interpretations of correlations.
+
+### Recommendations
+
+1. **Data Cleaning:** Address the missing values through imputation or data enrichment processes to ensure a more robust analysis.
+
+2. **Focus on Social Policies:** Policymakers should prioritize initiatives that enhance social support systems and health services, as these are closely linked with improved life satisfaction.
+
+3. **Outlier Management:** Investigate the reasons behind identified outliers to account for their influence on overall trends and correlations.
+
+4. **Segmentation Strategies:** Utilize the clustering results to develop tailored policies for different groups of countries based on their unique characteristics associated with life satisfaction.
+
+### Conclusions
+
+The dataset reveals valuable insights into the interplay between economic, social, and health factors affecting life satisfaction across countries. Robust processes for dealing with missing data, outlier management, and strategic focus areas for policy interventions are critical for enhancing life factors and overall well-being. Future analyses should explore deeper correlations and potential causal relationships among the various metrics to provide even greater clarity on improving quality of life globally.
 
 ### Outlier Detection Results
 Detected outliers in 'year': 0 rows
@@ -51,18 +67,33 @@ Detected outliers in 'Negative affect': 31 rows
 ### Feature Importance Analysis
 |    | Feature                          |   Importance |
 |---:|:---------------------------------|-------------:|
-|  3 | Social support                   |    0.271567  |
-|  4 | Healthy life expectancy at birth |    0.107955  |
-|  2 | Log GDP per capita               |    0.10545   |
-|  0 | year                             |    0.104128  |
-|  8 | Positive affect                  |    0.103454  |
-|  7 | Perceptions of corruption        |    0.0897795 |
-|  5 | Freedom to make life choices     |    0.0747241 |
-|  1 | Life Ladder                      |    0.0741952 |
-|  6 | Generosity                       |    0.0687488 |
+|  3 | Social support                   |    0.27151   |
+|  4 | Healthy life expectancy at birth |    0.107936  |
+|  2 | Log GDP per capita               |    0.105402  |
+|  0 | year                             |    0.104132  |
+|  8 | Positive affect                  |    0.103446  |
+|  7 | Perceptions of corruption        |    0.0899058 |
+|  5 | Freedom to make life choices     |    0.074778  |
+|  1 | Life Ladder                      |    0.0742228 |
+|  6 | Generosity                       |    0.0686676 |
 
 ### Correlation Analysis
 Correlation Matrix saved as C:\Users\Abdul Hadi\Desktop\TdsProject2\happiness\correlation_matrix.png
+
+### Clustering Analysis
+K-Means clustering successfully performed with 3 clusters on numeric columns: ['year', 'Life Ladder', 'Log GDP per capita', 'Social support', 'Healthy life expectancy at birth', 'Freedom to make life choices', 'Generosity', 'Perceptions of corruption', 'Positive affect', 'Negative affect']. Results plotted in two dimensions.
+
+### Distribution Analysis
+Boxplot created for year.
+Boxplot created for Life Ladder.
+Boxplot created for Log GDP per capita.
+Boxplot created for Social support.
+Boxplot created for Healthy life expectancy at birth.
+Boxplot created for Freedom to make life choices.
+Boxplot created for Generosity.
+Boxplot created for Perceptions of corruption.
+Boxplot created for Positive affect.
+Boxplot created for Negative affect.
 
 ### Visualizations
 ![Correlation Heatmap](C:\Users\Abdul Hadi\Desktop\TdsProject2\happiness/correlation_heatmap.png)
