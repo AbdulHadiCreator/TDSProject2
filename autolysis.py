@@ -19,6 +19,8 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import requests
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
 from sklearn.cluster import KMeans
 from datetime import datetime
 from sklearn.impute import SimpleImputer
@@ -106,7 +108,19 @@ def ask_llm(prompt):
         print(f"Error: LLM request failed with status {response.status_code}")
         print(response.text)
         sys.exit(1)
-        
+ 
+def suggest_analysis(data_summary):
+    """Suggest additional analyses dynamically using LLM."""
+    prompt = f"""
+    Dataset Summary:
+    - Columns: {data_summary['columns']}
+    - Missing Values: {data_summary['missing_values']}
+    - Key Statistics: {data_summary['description']}
+    
+    Suggest analyses that would yield meaningful insights from this dataset.
+    """
+    return ask_llm(prompt)
+      
 def narrate_analysis(data_summary, analyses):
     """Generate a cohesive story using LLM."""
     global story, recommendations, conclusions
@@ -321,6 +335,9 @@ if __name__ == "__main__":
     """
     narrate_analysis(data_summary, analyses_summary)
 
+    # Generate analysis suggestions from LLM
+    suggestions = suggest_analysis(data_summary)
+
     # Write results to README.md
     readme_path = os.path.join(output_dir, "README.md")
     with open(readme_path, "w") as f:
@@ -348,4 +365,6 @@ if __name__ == "__main__":
             f.write(f"![Correlation Heatmap]({visualizations['heatmap']})\n")
         for hist in visualizations["histograms"]:
             f.write(f"![Histogram: {hist}]({os.path.basename(hist)})\n")
+        f.write("### Suggestions\n")
+        f.write(suggestions + "\n")
     print(f"Analysis completed. Results saved in '{output_dir}'.")

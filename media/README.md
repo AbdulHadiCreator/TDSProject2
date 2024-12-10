@@ -7,44 +7,29 @@
 - **Missing Values**: {'date': 99, 'language': 0, 'type': 0, 'title': 0, 'by': 262, 'overall': 0, 'quality': 0, 'repeatability': 0}
 
 ### Key Insights
-
-1. **Missing Values**: The dataset contains a significant number of missing values, particularly in the 'date' (99 missing) and 'by' (262 missing) columns. Addressing these is crucial for further analysis.
-
-2. **Language and Type Distribution**: The dataset predominantly focuses on English language entries (1306 out of 2652) and movies (2211 out of 2652), indicating a potential bias towards popular media.
-
-3. **Overall Ratings**: The average overall rating is approximately 3.05, indicating a generally satisfactory reception among the entries. However, it has a standard deviation of 0.76, which suggests variability in how different entries are rated.
-
-4. **Quality Ratings**: The average quality rating is slightly higher at about 3.21, indicating that movies may often be perceived as more qualitative than their overall rating.
-
-5. **Repeatability**: The mean repeatability scoring is lower (1.49), suggesting that many entries lack consistency or may not be easily re-watched or appreciated multiple times.
+1. **Overall Ratings**: The average overall rating is approximately 3.05, indicating a generally positive view of the dataset entries. However, the standard deviation of 0.76 suggests variability in the ratings given.
+2. **Quality Ratings**: The average quality rating is slightly higher than the overall rating at around 3.21, with a standard deviation of 0.80, indicating that while overall satisfaction may be moderate, quality perceptions vary.
+3. **Repeatability**: The repeatability rating has a lower average of approximately 1.49, with many entries rated at the minimum value of 1, suggesting that repeatability is viewed negatively.
+4. **Missing Values**: There is a significant amount of missing data for the 'by' column (262 missing values) and 'date' (99 missing values), which could potentially impact any analyses conducted using this data.
 
 ### Dataset Overview
-
-- **Columns**: The dataset consists of 8 columns focused on media attributes like 'date', 'language', 'type', and various ratings (overall, quality, repeatability).
-- **Size**: It contains 2652 total records, highlighting a robust dataset, but attention is needed on the missing values.
-- **Unique Values**: The titles, contributors, and entry dates are diverse, with 2312 unique titles and 1528 unique contributors.
+- **Dimensions**: The dataset contains 2652 entries, with relevant columns including date, language, type, title, by (contributor), overall rating, quality rating, and repeatability rating.
+- **Missing Values**: Notably, 'date' and 'by' have missing values, which could affect longitudinal analyses and authorship insights.
 
 ### Key Findings
-
-1. **Outlier Analysis**: Significant outliers were detected in the 'overall' ratings (1216 rows) and fewer in 'quality' (24 rows). This indicates that while most entries are rated around the average score, many have extremely high or low ratings that could skew the interpretation of the data.
-
-2. **Feature Importance**: The analysis indicates that 'overall' is the most significant predictor of satisfaction/ratings, with a very high importance score (82.17%) compared to 'quality' (17.83%).
-
-3. **Cluster Analysis**: K-Means clustering successfully identified 3 distinct clusters in terms of overall, quality, and repeatability scores. Patterns in these clusters can inform audience targeting and content strategy.
+1. **Outliers**: A significant number of outliers were detected in the 'overall' ratings (1216 rows), indicating that many responses could be extreme - either very high or very low. This warrants further investigation for potential data integrity issues or genuine extreme opinions.
+2. **Feature Importance**: Analysis reveals that the 'overall' rating is much more influential (82.2%) than 'quality' (17.8%) in whatever modeling or prediction tasks may be applied, highlighting the prominence of general satisfaction over quality in assessing entries.
+3. **Clustering Analysis**: K-Means clustering identified 3 distinct groups in the data based on 'overall', 'quality', and 'repeatability', which could aid in segmenting the data for targeted insights or interventions.
 
 ### Recommendations
-
-1. **Data Cleaning**: Missing data should be addressed through imputation or careful removal. Furthermore, further investigation of the outliers in the 'overall' scores is recommended to either understand the reasons behind extreme ratings or to consider removing them from aggregated analyses.
-
-2. **Focus on High-Quality Content**: Given the cluster analysis, accommodations should focus on high-quality titles (as indicated by high ratings) to retain audience engagement. Consider investing in similar genres or thematic content found within the clusters.
-
-3. **Explore Contributor Patterns**: Investigate commonalities related to high-rated titles by different contributors ('by'). It may be beneficial to create partnerships or highlight contributors that consistently deliver high ratings.
-
-4. **Enhance Repeatability**: Strategies should be employed to enhance repeatability aspects of the content, possibly by promoting fan-favorite titles more aggressively or through secondary content that enhances viewers' experiences.
+1. **Data Cleaning**: Address missing values, particularly in the 'date' and 'by' columns, to improve dataset completeness for future analyses. Consider imputing missing values or analyzing the impact of these gaps on overall findings.
+2. **Outlier Management**: Examine the outliers in the 'overall' ratings and determine whether they skew analysis results. Techniques such as winsorizing could be used if outliers are deemed to distort findings but are not errors.
+3. **Deep Dive into Low Repeatability**: Investigate reasons behind the low repeatability ratings, as this could point to inconsistencies or low trust in the entries. Qualitative analysis of titles with low repeatability could yield actionable insights.
+4. **Enhanced Feature Exploration**: Consider exploring interactions between ratings (overall, quality, repeatability) to uncover complex relationships that may not be apparent through simple analysis.
+5. **Visualization**: Utilize the clustering results to create graphs/plots that highlight differences between clusters, improving stakeholder understanding and communication.
 
 ### Conclusions
-
-The dataset offers a solid foundation for understanding audience preferences in media ratings, especially regarding 'overall' satisfaction and 'quality.' Key outliers should be addressed to ensure data integrity, and focused strategies should target identified patterns through clustering to foster engagement and improve the quality of media entries. By acting on these insights, the dataset can provide more pronounced strategic advantages in content curation and audience engagement.
+The dataset presents a mixed picture, with decent average ratings for overall satisfaction and quality, but poor repeatability. The presence of outliers and missing values is critical to understanding the reliability of the findings. Recommendations focused on data quality improvement and in-depth analysis of outliers may support more accurate insights moving forward. Further granular analysis is suggested to substantively address the underlying factors contributing to the observed ratings, enabling deeper engagement with the dataset.
 
 ### Outlier Detection Results
 Detected outliers in 'overall': 1216 rows
@@ -73,3 +58,43 @@ Boxplot created for repeatability.
 ![Histogram: C:\Users\Abdul Hadi\Desktop\TdsProject2\media/overall_histogram.png](overall_histogram.png)
 ![Histogram: C:\Users\Abdul Hadi\Desktop\TdsProject2\media/quality_histogram.png](quality_histogram.png)
 ![Histogram: C:\Users\Abdul Hadi\Desktop\TdsProject2\media/repeatability_histogram.png](repeatability_histogram.png)
+### Suggestions
+Based on the provided dataset summary, here are several analyses that could yield meaningful insights:
+
+1. **Date Analysis**:
+   - **Trend Over Time**: Analyze how ratings (overall, quality, repeatability) have changed over time. This could involve plotting average ratings against years to identify trends or patterns.
+   - **Seasonality**: Investigate if ratings vary significantly by month or season, which may reveal seasonal preferences in the dataset.
+
+2. **Language Analysis**:
+   - **Rating Distribution by Language**: Compare the overall, quality, and repeatability ratings across different languages to see if there are significant differences.
+   - **Most Common Languages**: Identify the most common languages in the dataset and their relationship with rating metrics.
+
+3. **Type Analysis**:
+   - **Average Ratings by Type**: Determine if different types (e.g., movie, series, etc.) have significantly different average ratings (overall, quality, repeatability).
+   - **Type Popularity**: Analyze the distribution of types to see which are most prevalent and how they correlate with user ratings.
+
+4. **Title Analysis**:
+   - **Top Rated Titles**: Find the titles with the highest and lowest average ratings. This would provide insights into what content is resonating with audiences.
+   - **Rating Frequency**: Determine if certain titles receive a disproportionate number of ratings, indicating potential popularity or bias.
+
+5. **Contributor Analysis**:
+   - **Rating Behavior by Contributor**: Analyze the relationship between the number of ratings contributed by users and their overall ratings. Look into the 262 missing values in the 'by' column to see if contributors who rated multiple times have different behaviors than one-time raters.
+   - **Diversity of Contributors**: Assess the diversity of contributors in terms of the frequency of ratings provided and whether they lean towards certain types, languages, or titles.
+
+6. **Rating Correlations**:
+   - **Correlation Between Ratings**: Examine correlations between overall, quality, and repeatability ratings. This can reveal if users who rate one aspect higher are likely to rate others similarly.
+   - **Qualitative Analysis**: If accessible, perform qualitative analysis of text reviews (if any are present in the dataset) to complement the quantitative findings regarding overall quality and repeatability.
+
+7. **Handling Missing Data**:
+   - **Impact of Missing Values**: Investigate patterns associated with missing values in the 'date' (99 missing) and 'by' (262 missing) columns. Identify if certain groups or types of titles are underrepresented and how that impacts overall analysis.
+
+8. **User Segmentation**:
+   - **Segmentation of Ratings**: Based on the 'by' column, segment users into frequent and infrequent raters and analyze their rating behaviors. This could uncover unique insights about committed versus casual viewers.
+
+9. **Descriptive Statistics**:
+   - **Complete Descriptive Statistics**: Calculate descriptive statistics for numeric fields (overall, quality, repeatability) broken down by categories to get a nuanced view of data distribution (mean, median, mode, quartiles).
+
+10. **Visualizations**:
+    - **Data Visualization**: Use bar charts, box plots, and heatmaps to visualize the relationships between different features such as language, type, and ratings. This can often reveal patterns that are not immediately evident from raw data alone. 
+
+By conducting these analyses, you can uncover valuable insights about the dataset, such as user preferences, content popularity, trends over time, and the relationship between different variables.
