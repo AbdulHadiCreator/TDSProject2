@@ -244,7 +244,7 @@ if __name__ == "__main__":
     # Generate analysis suggestions from LLM
     suggestions = suggest_analysis(data_summary)
 
-    # Write results to README.md
+ 
     # Write results to README.md
     readme_path = os.path.join(output_dir, "README.md")
     with open(readme_path, "w") as f:
@@ -261,18 +261,17 @@ if __name__ == "__main__":
             f.write(feature_importance_results.to_markdown() + "\n\n")
         if "heatmap" in visualizations:
             f.write("### Correlation Heatmap\n")
-            f.write(f"![Correlation Heatmap]({visualizations['heatmap']})\n\n")
+            f.write(f"![Correlation Heatmap](./{os.path.basename(visualizations['heatmap'])})\n\n")
         if "boxplots" in visualizations:
             f.write("### Boxplots\n")
             for boxplot_path in visualizations["boxplots"]:
-                f.write(f"![Boxplot]({boxplot_path})\n\n")
+                f.write(f"![Boxplot](./{os.path.basename(boxplot_path)})\n\n")
         if "histograms" in visualizations:
             f.write("### Histograms\n")
             for hist_path in visualizations["histograms"]:
-                f.write(f"![Histogram]({hist_path})\n\n")
+                f.write(f"![Histogram](./{os.path.basename(hist_path)})\n\n")
         f.write("## Suggestions\n\n")
         f.write(suggestions + "\n\n")
-
 
 
     print(f"Analysis completed. Results saved to {readme_path}")
