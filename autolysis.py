@@ -20,6 +20,7 @@ import matplotlib.pyplot as plt
 import requests
 from sklearn.ensemble import RandomForestRegressor
 from datetime import datetime
+from pathlib import Path
 
 # Ensure the script is run with a CSV filename argument
 if len(sys.argv) != 2:
@@ -113,7 +114,6 @@ def suggest_analysis(data_summary):
     """
     return ask_llm(prompt)
 
-
 def narrate_analysis(data_summary, analyses):
     """Generate a cohesive story using LLM."""
     global story, recommendations, conclusions
@@ -137,45 +137,81 @@ def narrate_analysis(data_summary, analyses):
     return story
 
 
+
 def generate_visualizations(data, output_prefix):
-    """Generate up to 7 meaningful visualizations for the dataset."""
+    """Generate up to 7 meaningful visualizations for the dataset, reducing the LLM requests."""
     paths = {}
 
-    # Correlation Heatmap
-    numeric_cols = data.select_dtypes(include="number").columns
-    if not numeric_cols.empty:
-        corr = data[numeric_cols].corr()
-        plt.figure(figsize=(10, 8))
-        sns.heatmap(corr, annot=True, cmap="coolwarm", fmt=".2f")
-        heatmap_path = f"{output_prefix}/correlation_heatmap.png"
-        plt.title("Correlation Heatmap")
-        plt.savefig(heatmap_path)
-        plt.close()
-        paths["heatmap"] = heatmap_path
+    # Function to remove spaces from filenames
+    def remove_spaces_from_filename(name):
+        """Remove spaces from file name."""
+        return name.replace(" ", "_")
 
-    # Boxplots for top 3 numeric columns
-    paths["boxplots"] = []
-    for column in numeric_cols[:3]:  # Limiting to 3 columns for better visualization
-        plt.figure(figsize=(8, 6))
-        sns.boxplot(x=data[column], color="skyblue")
-        plt.title(f"Boxplot of {column}")
-        boxplot_path = f"{output_prefix}/{column}_boxplot.png"
-        plt.savefig(boxplot_path)
-        plt.close()
-        paths["boxplots"].append(boxplot_path)
+    # Ensure the output directory exists
+    output_dir = Path(output_prefix)
+    output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Histograms for top 3 numeric columns
-    paths["histograms"] = []
-    for column in numeric_cols[:3]:  # Limiting to 3 columns
-        plt.figure(figsize=(8, 6))
-        sns.histplot(data[column], kde=True, color="blue")
-        plt.title(f"Histogram of {column}")
-        hist_path = f"{output_prefix}/{column}_histogram.png"
-        plt.savefig(hist_path)
-        plt.close()
-        paths["histograms"].append(hist_path)
+    # Remove old PNG files if any exist
+    for existing_file in output_dir.glob("*.png"):
+        existing_file.unlink()
+
+    # Function to limit the visualizations
+    def get_visualization_choice():
+        """Return up to 7 meaningful visualizations based on dataset analysis."""
+        numeric_cols = data.select_dtypes(include="number").columns
+        visualizations = []
+
+        if not numeric_cols.empty:
+            # Correlation Heatmap
+            corr = data[numeric_cols].corr()
+            visualizations.append(("Correlation Heatmap", corr))
+
+            # Boxplots for the first 3 numeric columns (limit to 7 visualizations total)
+            for column in numeric_cols[:3]:
+                visualizations.append(("Boxplot of " + column, column))
+
+            # Histograms for the first 3 numeric columns
+            for column in numeric_cols[:3]:
+                visualizations.append(("Histogram of " + column, column))
+
+        return visualizations[:7]  # Ensure no more than 7 visualizations
+
+    visualizations = get_visualization_choice()
+
+    # Loop over the selected visualizations and generate corresponding images
+    for title, content in visualizations:
+        if "Heatmap" in title:
+            plt.figure(figsize=(10, 8))
+            sns.heatmap(content, annot=True, cmap="coolwarm", fmt=".2f")
+            filename = remove_spaces_from_filename(f"{title}.png")
+            path = output_dir / filename
+            plt.title(title)
+            plt.savefig(path)
+            plt.close()
+            paths[title] = path
+
+        elif "Boxplot" in title:
+            plt.figure(figsize=(8, 6))
+            sns.boxplot(x=data[content], color="skyblue")
+            filename = remove_spaces_from_filename(f"{title}.png")
+            path = output_dir / filename
+            plt.title(title)
+            plt.savefig(path)
+            plt.close()
+            paths[title] = path
+
+        elif "Histogram" in title:
+            plt.figure(figsize=(8, 6))
+            sns.histplot(data[content], kde=True, color="blue")
+            filename = remove_spaces_from_filename(f"{title}.png")
+            path = output_dir / filename
+            plt.title(title)
+            plt.savefig(path)
+            plt.close()
+            paths[title] = path
 
     return paths
+
 
 
 def detect_outliers(data, column):
@@ -244,8 +280,8 @@ if __name__ == "__main__":
     # Generate analysis suggestions from LLM
     suggestions = suggest_analysis(data_summary)
 
- 
     # Write results to README.md
+
     readme_path = os.path.join(output_dir, "README.md")
     with open(readme_path, "w") as f:
         f.write(f"# Automated Data Analysis Report for {dataset_name.capitalize()}\n\n")
@@ -259,19 +295,24 @@ if __name__ == "__main__":
         if feature_importance_results is not None:
             f.write("### Feature Importance Analysis\n")
             f.write(feature_importance_results.to_markdown() + "\n\n")
-        if "heatmap" in visualizations:
-            f.write("### Correlation Heatmap\n")
-            f.write(f"![Correlation Heatmap](./{os.path.basename(visualizations['heatmap'])})\n\n")
-        if "boxplots" in visualizations:
-            f.write("### Boxplots\n")
-            for boxplot_path in visualizations["boxplots"]:
-                f.write(f"![Boxplot](./{os.path.basename(boxplot_path)})\n\n")
-        if "histograms" in visualizations:
-            f.write("### Histograms\n")
-            for hist_path in visualizations["histograms"]:
-                f.write(f"![Histogram](./{os.path.basename(hist_path)})\n\n")
+
+        # Check for visualizations and add them to the README
+        if visualizations:
+            f.write("### Visualizations\n")
+            for title, path in visualizations.items():
+                f.write(f"![{title}](./{path.name})\n\n")
+
         f.write("## Suggestions\n\n")
         f.write(suggestions + "\n\n")
 
-
     print(f"Analysis completed. Results saved to {readme_path}")
+
+
+
+
+
+
+
+
+
+
